@@ -7,10 +7,13 @@
   <h1>Welcome to {{ title }}!</h1>
 </header>
 <main>
-  <h1>Lista de itens</h1>
 
-  <webdev-lista [lista]="itens"></webdev-lista>
-
-  <webdev-form (onAdded)="addItem($event)"></webdev-form>
-  
+  <mat-card>
+    <mat-card-title>Lista</mat-card-title>
+    <webdev-lista [lista]="itens" (onRemove)="removeItem($event)"></webdev-lista>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>Form</mat-card-title>
+    <webdev-form (onAdded)="addItem($event)"></webdev-form>
+  </mat-card>
 </main>

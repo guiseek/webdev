@@ -14,4 +14,7 @@ export class AppService {
   addItem(item: Item) {
     this.itens.push(item);
   }
+  removeItem(index: number) {
+    return this.itens.splice(index, 1);
+  }
 }

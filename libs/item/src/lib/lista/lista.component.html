@@ -1,4 +1,19 @@
-<p>lista works!</p>
-<ul>
-    <li *ngFor="let item of lista">{{item.nome}}</li>
-</ul>
+<mat-list>
+    <mat-list-item *ngFor="let item of lista; index as i;">
+        <h3 mat-line>{{item.nome}}</h3>
+        <button mat-icon-button (click)="remove(i, item)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-list-item>
+</mat-list>
+<p *ngIf="!!lista && lista.length == 0">Lista vazia...</p>
+
+
+<ng-template #removeDialog let-data>
+    <h2 mat-dialog-title>Deletar</h2>
+    <div>Tem certeza que deseja remover o item {{data.nome}}?</div>
+    <div mat-dialog-actions>
+        <button type="button" mat-button mat-dialog-close>Cancelar</button>
+        <button type="button" mat-flat-button mat-dialog-close="confirm">Confirmar</button>
+    </div>
+</ng-template>

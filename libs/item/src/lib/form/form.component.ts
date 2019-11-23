@@ -17,7 +17,8 @@ export class FormComponent implements OnInit {
       nome: ['', [
         Validators.required,
         Validators.minLength(2)
-      ]]
+      ]],
+      desc: []
     })
   }
 

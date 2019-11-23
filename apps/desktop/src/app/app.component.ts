@@ -33,4 +33,9 @@ export class AppComponent {
     this.http.post('/api/itens', data)
       .subscribe(() => this.fetch())
   }
+  removeItem(item) {
+    console.log(item)
+    this.http.delete(`api/itens/${item}`)
+      .subscribe(() => this.fetch())
+  }
 }
