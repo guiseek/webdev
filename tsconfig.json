@@ -15,7 +15,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@webdev/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@webdev/item": ["libs/item/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -13,6 +13,21 @@
     },
     "desktop": {
       "tags": []
+    },
+    "api": {
+      "tags": []
+    },
+    "api-interfaces": {
+      "tags": []
+    },
+    "mobile-e2e": {
+      "tags": []
+    },
+    "mobile": {
+      "tags": []
+    },
+    "item": {
+      "tags": []
     }
   }
 }

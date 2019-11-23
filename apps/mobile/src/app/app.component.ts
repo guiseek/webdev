@@ -9,8 +9,7 @@ import { Item } from '@webdev/api-interfaces';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'desktop';
-  
+  title = 'mobile';
   itens: Item[] = [];
   form: FormGroup;
   constructor(

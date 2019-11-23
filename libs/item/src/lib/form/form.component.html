@@ -1,0 +1,6 @@
+<p>form works!</p>
+<form [formGroup]="form">
+    <input type="text" formControlName="nome">
+
+    <button (click)="addItem()" [disabled]="form.invalid">Add Item</button>
+</form>

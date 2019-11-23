@@ -7,10 +7,9 @@
   <h1>Welcome to {{ title }}!</h1>
 </header>
 <main>
-  <h1>Lista de itens</h1>
+    <h1>Lista de itens</h1>
 
-  <webdev-lista [lista]="itens"></webdev-lista>
-
-  <webdev-form (onAdded)="addItem($event)"></webdev-form>
+    <webdev-lista [lista]="itens"></webdev-lista>
   
+    <webdev-form (onAdded)="addItem($event)"></webdev-form>
 </main>
