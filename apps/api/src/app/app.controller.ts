@@ -1,11 +1,28 @@
-import { Controller, Get, Post, Body, Delete, Param } from '@nestjs/common';
-
-import { AppService } from './app.service';
+import { Body, Controller, Delete, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { Item } from '@webdev/api-interfaces';
+import { AuthService } from '@webdev/api/auth';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly authService: AuthService
+  ) {}
+
+  @UseGuards(AuthGuard('local'))
+  @Post('auth/login')
+  async login(@Request() req) {
+    return this.authService.login(req.user)
+    // return req.user;
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
 
   @Get()
   getData() {

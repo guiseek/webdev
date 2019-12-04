@@ -28,6 +28,12 @@
     },
     "item": {
       "tags": []
+    },
+    "api-auth": {
+      "tags": []
+    },
+    "api-users": {
+      "tags": []
     }
   }
 }
