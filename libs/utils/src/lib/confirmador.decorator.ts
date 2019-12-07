@@ -25,7 +25,10 @@ export function Confirmador(message: string) {
       })
       ref.afterClosed().subscribe(
         (result) => {
-          if (result) return original.apply(this, args)
+          if (result) {
+            console.log('result: ', result)
+            return original.apply(this, args)
+          }
           return null
         }
       )
