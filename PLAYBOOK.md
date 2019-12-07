@@ -658,7 +658,40 @@ export class Interceptor { }
 ```sh
 ng generate @nrwl/angular:library feature/shell --lazy --parentModule=apps/desktop/src/app/app.module.ts --routing --no-interactive --dry-run
 ```
+---
 
+# Angular CLI
+O Angular CLI é muito poderoso!
+
+Servindo o app junto com a API em 1 comando.
+
+## Serve with api
+```ts
+// angular.json
+
+// ...
+,
+        "serve-with-api": {
+          "builder": "@angular-devkit/architect:allOf",
+          "options": {
+            "targets": [
+              {
+                "target": "desktop:serve"
+              },
+              {
+                "target": "api:serve"
+              }
+            ]
+          }
+        },
+        "extract-i18n": {
+// ...
+```
+
+```ts
+// package.json
+"desk-api": "ng run desktop:serve-with-api",
+```
 
 <!--
 ## Criar lib de autenticação para a API

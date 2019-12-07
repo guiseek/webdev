@@ -6,6 +6,7 @@
     "ng": "ng",
     "nx": "nx",
     "start": "ng serve",
+    "desk-api": "ng run desktop:serve-with-api",
     "build": "ng build",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
