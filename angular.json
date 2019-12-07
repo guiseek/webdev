@@ -237,7 +237,7 @@
             "polyfills": "apps/mobile/src/polyfills.ts",
             "tsConfig": "apps/mobile/tsconfig.app.json",
             "aot": false,
-            "assets": ["apps/mobile/src/favicon.ico", "apps/mobile/src/assets"],
+            "assets": ["apps/mobile/src/favicon.ico", "apps/mobile/src/assets", "apps/mobile/src/manifest.webmanifest"],
             "styles": ["apps/mobile/src/styles.scss"],
             "scripts": []
           },
@@ -269,7 +269,9 @@
                   "maximumWarning": "6kb",
                   "maximumError": "10kb"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "apps/mobile/ngsw-config.json"
             }
           }
         },

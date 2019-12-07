@@ -1,44 +1,34 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
-import { Item } from '@webdev/api-interfaces';
+import { Input, Output, Component, EventEmitter } from '@angular/core';
 import { ComTaxa, Confirmador } from '@webdev/utils';
+import { Item } from '@webdev/api-interfaces';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'webdev-lista',
   templateUrl: './lista.component.html',
-  styleUrls: ['./lista.component.css']
+  styleUrls: ['./lista.component.css'],
+  providers: [MatDialog]
 })
-export class ListaComponent implements OnInit {
+export class ListaComponent {
   @Input() lista: Item[];
   @Output() onRemove = new EventEmitter<number>();
 
-  @ViewChild('removeDialog', { static: true })
-  removeDialog: TemplateRef<HTMLElement>
-  constructor(
-    private dialog: MatDialog
-  ) { }
+  constructor(public dialog: MatDialog) {}
 
   @ComTaxa(0.15)
   get total() {
-    return this.lista.reduce((prev, cur) => (prev + cur.preco), 0)
+    return this.lista.reduce((prev, cur) => prev + cur.preco, 0);
   }
-  ngOnInit() {
-  }
+
+  /**
+   * Decorator de confirmação
+   *
+   * @param {number} index
+   * @param {Item} item Deve ser mantido, pois é usado no decorator
+   * @memberof ListaComponent
+   */
   @Confirmador('Tem certeza que deseja remover {item} ?')
   remove(index: number, item: Item) {
-    console.log(index)
-    this.onRemove.emit(index)
-    // const ref = this.dialog.open(
-    //   this.removeDialog, {
-    //     data: item
-    //   }
-    // )
-    // ref.afterClosed().subscribe((result) => {
-    //   console.log('result: ', result)
-    //   if (result) {
-    //     this.onRemove.emit(index)
-    //   }
-    // })
-    // this.onRemove.emit(index);
+    this.onRemove.emit(index);
   }
 }

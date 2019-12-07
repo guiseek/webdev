@@ -693,6 +693,77 @@ Servindo o app junto com a API em 1 comando.
 "desk-api": "ng run desktop:serve-with-api",
 ```
 
+
+---
+
+# PWA - Progressive Web App
+
+```sh
+ng add @angular/pwa --project mobile
+```
+
+## Ações
+```sh
+// Output
+success Saved lockfile.
+success Saved 3 new dependencies.
+info Direct dependencies
+└─ @angular/pwa@0.803.20
+info All dependencies
+├─ @angular/pwa@0.803.20
+├─ parse5-html-rewriting-stream@5.1.0
+└─ parse5-sax-parser@5.1.1
+✨  Done in 15.53s.
+Installed packages for tooling via yarn.
+CREATE apps/mobile/ngsw-config.json (624 bytes)
+CREATE apps/mobile/src/manifest.webmanifest (1069 bytes)
+CREATE apps/mobile/src/assets/icons/icon-128x128.png (1253 bytes)
+CREATE apps/mobile/src/assets/icons/icon-144x144.png (1394 bytes)
+CREATE apps/mobile/src/assets/icons/icon-152x152.png (1427 bytes)
+CREATE apps/mobile/src/assets/icons/icon-192x192.png (1790 bytes)
+CREATE apps/mobile/src/assets/icons/icon-384x384.png (3557 bytes)
+CREATE apps/mobile/src/assets/icons/icon-512x512.png (5008 bytes)
+CREATE apps/mobile/src/assets/icons/icon-72x72.png (792 bytes)
+CREATE apps/mobile/src/assets/icons/icon-96x96.png (958 bytes)
+UPDATE angular.json (16698 bytes)
+UPDATE package.json (2709 bytes)
+UPDATE apps/mobile/src/app/app.module.ts (733 bytes)
+UPDATE apps/mobile/src/index.html (504 bytes)
+```
+
+
+## Adicionar Material no App Mobile
+
+```scss
+// styles.scss
+
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
+
+html, body {
+    height: 100%;
+    font-family: Roboto;
+}
+```
+
+## Adicionar static material no index.html
+```html
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+```
+
+# Build prod do mobile
+
+e...
+
+```sh
+http-server dist/apps/mobile -p 80
+```
+
+<img src="pwa-install.png"/>>
+
 <!--
 ## Criar lib de autenticação para a API
 ```cmd
