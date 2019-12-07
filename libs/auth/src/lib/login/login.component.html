@@ -1,0 +1,24 @@
+<form [formGroup]="form">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+
+    <mat-form-field>
+      <mat-label>Usuário</mat-label>
+      <input type="text" matInput formControlName="username">
+      <mat-error>Campo obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Senha</mat-label>
+      <input type="password" matInput formControlName="password">
+    </mat-form-field>
+
+    <mat-card-actions align="start">
+      <button (click)="login()" mat-stroked-button color="primary" [disabled]="form.invalid">
+        Login
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+</form>

@@ -1,16 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule } from '@angular/material';
+import { UiModule } from '@webdev/ui';
 import { FormComponent } from './form/form.component';
 import { ListaComponent } from './lista/lista.component';
-import {
-  MatFormFieldModule,
-  MatInputModule,
-  MatButtonModule,
-  MatListModule,
-  MatIconModule,
-  MatDialogModule
-} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -21,7 +15,8 @@ import {
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    UiModule
   ],
   declarations: [FormComponent, ListaComponent],
   exports: [FormComponent, ListaComponent]

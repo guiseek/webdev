@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Item } from '@webdev/api-interfaces';
 
 @Component({
@@ -18,7 +18,8 @@ export class FormComponent implements OnInit {
         Validators.required,
         Validators.minLength(2)
       ]],
-      desc: []
+      desc: [],
+      preco: [0]
     })
   }
 

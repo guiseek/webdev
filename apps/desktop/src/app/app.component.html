@@ -1,19 +1,9 @@
 <header class="flex">
-  <img
-    alt="Nx logo"
-    width="75"
-    src="https://nx.dev/assets/images/nx-logo-white.svg"
-  />
+  <img alt="Nx logo" width="75" src="https://nx.dev/assets/images/nx-logo-white.svg" />
   <h1>Welcome to {{ title }}!</h1>
 </header>
 <main>
 
-  <mat-card>
-    <mat-card-title>Lista</mat-card-title>
-    <webdev-lista [lista]="itens" (onRemove)="removeItem($event)"></webdev-lista>
-  </mat-card>
-  <mat-card>
-    <mat-card-title>Form</mat-card-title>
-    <webdev-form (onAdded)="addItem($event)"></webdev-form>
-  </mat-card>
+  <router-outlet></router-outlet>
+
 </main>

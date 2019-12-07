@@ -474,6 +474,192 @@ curl -X POST http://localhost:3333/api/users -d '' -H "Content-Type: application
 }
 ```
 
+
+
+FRONT
+
+Adicionar RouterModule no app.module
+
+rouetr-outlet
+
+```sh
+ng generate @nrwl/angular:library auth --parentModule=apps/desktop/src/app/app.module.ts --routing --style=scss
+```
+
+```sh
+ng generate @schematics/angular:component login --project=auth --style=scss --no-interactive --dry-run
+```
+
+UTILS
+
+```sh
+ng generate @nrwl/workspace:library utils
+```
+
+```sh
+ng generate @nrwl/angular:library ui --prefix=ui --style=scss --no-interactive --dry-run
+```
+
+```sh
+ng generate @schematics/angular:component confirm-dialog --project=ui --entryComponent --export --skipTests --style=scss --no-interactive --dry-run
+```
+
+---
+
+## *Adicionar o `UiModule` ao ItemModule*
+
+---
+
+# Decorators
+
+## Confirmação
+
+```ts
+import { Injector } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '@webdev/ui';
+
+/**
+ *
+ * @param message
+ */
+export function Confirm(message: string) {
+  /**
+   * @param target é a classe, no nosso claso o componente ListaComponent
+   * @param key é o método qual o decorator está interceptando
+   * @param descriptor pode ser usado para observar, modificar ou substituir as definições de um acessador
+  */
+  return function (target: Object, key: string | symbol, descriptor: PropertyDescriptor) {
+    const original = descriptor.value;
+
+    const injector = Injector.create({ providers: [{ provide: MatDialog, deps: [] }] });
+    const dialog: MatDialog = injector.get(MatDialog);
+
+    descriptor.value = function (...args: any[]) {
+
+      const ref = this.dialog.open(ConfirmDialogComponent, {
+        data: message.replace('{item}', args[1].nome)
+      })
+      ref.afterClosed().subscribe(
+        (result) => {
+          if (result) return original.apply(this, args)
+          return null
+        }
+      )
+    };
+
+    return descriptor;
+  };
+}
+```
+
+## Vamos ver um exemplo de acessadores
+
+Vamos criar um decorator que adiciona uma taxa a um valor total, pra isso vamos adicionar a propriedade `preco` a interface `Item`.
+Agora adicionamos o campo `preco` ao form, e no html.
+
+## Decorator
+
+```ts
+export function ComTaxa(rate: number) {
+  return function (target: any, key: string, descriptor: PropertyDescriptor) {
+    const original = descriptor.get;
+
+    descriptor.get = function () {
+      const result = original.apply(this);
+      return (result * (1 + rate)).toFixed(2);
+    };
+
+    return descriptor;
+  };
+}
+```
+
+
+## E usamos no componente `ListaComponent`
+
+```ts
+@ComTaxa(0.15)
+get total() {
+  return this.lista.reduce((prev, cur) => (prev + cur.preco), 0)
+}
+```
+
+## Guards
+```ts
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(
+    private router: Router
+  ) {}
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const logged = !!localStorage.getItem('access_token');
+    if (!logged) {
+      this.router.navigateByUrl('/auth');
+    }
+    return logged;
+  }
+
+}
+```
+
+## Interceptor
+```ts
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Injectable, NgModule } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+@Injectable()
+export class HttpsRequestInterceptor implements HttpInterceptor {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler,
+  ): Observable<HttpEvent<any>> {
+    const dupReq = req.clone({
+      headers: req.headers.set('Authorization', `Bearer ${localStorage.getItem('access_token')}`),
+    });
+    return next.handle(dupReq).pipe(
+      tap((ev: HttpEvent<any>) => {
+        if (ev instanceof HttpResponse) {
+          console.log('tratando respostas', ev);
+        }
+        if (ev instanceof HttpErrorResponse) {
+          console.log('tratando erros', ev);
+          // router
+        }
+      })
+    )
+  }
+}
+
+@NgModule({
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpsRequestInterceptor,
+      multi: true,
+    },
+  ],
+})
+
+export class Interceptor { }
+```
+
+### Adicionar no módulo `Auth`
+
+### Shell
+```sh
+ng generate @nrwl/angular:library feature/shell --lazy --parentModule=apps/desktop/src/app/app.module.ts --routing --no-interactive --dry-run
+```
+
+
 <!--
 ## Criar lib de autenticação para a API
 ```cmd

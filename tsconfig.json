@@ -19,7 +19,11 @@
       "@webdev/api-interfaces": ["libs/api-interfaces/src/index.ts"],
       "@webdev/item": ["libs/item/src/index.ts"],
       "@webdev/api/auth": ["libs/api/auth/src/index.ts"],
-      "@webdev/api/users": ["libs/api/users/src/index.ts"]
+      "@webdev/api/users": ["libs/api/users/src/index.ts"],
+      "@webdev/auth": ["libs/auth/src/index.ts"],
+      "@webdev/utils": ["libs/utils/src/index.ts"],
+      "@webdev/ui": ["libs/ui/src/index.ts"],
+      "@webdev/feature/shell": ["libs/feature/shell/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
