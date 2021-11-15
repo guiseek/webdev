@@ -7,17 +7,18 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  app.useGlobalPipes(new ValidationPipe({
-    // disableErrorMessages: true,
-    // whitelist: true,
-    // transform: true
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      // disableErrorMessages: true,
+      // whitelist: true,
+      // transform: true
+    })
+  );
 
   const port = process.env.port || 3333;
   await app.listen(port, () => {

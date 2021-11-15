@@ -7,43 +7,38 @@ import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent {
   itens: Item[] = [];
   form: FormGroup;
-  user$: Observable<any>
+  user$: Observable<any>;
   constructor(
     private http: HttpClient,
     private fb: FormBuilder,
     private router: Router
   ) {
-    this.user$ = this.http.get('/api/profile')
+    this.user$ = this.http.get('/api/profile');
 
     this.form = this.fb.group({
-      nome: ['', [
-        Validators.required,
-        Validators.minLength(2)
-      ]]
-    })
-    this.fetch()
+      nome: ['', [Validators.required, Validators.minLength(2)]],
+    });
+    this.fetch();
   }
 
   fetch() {
-    this.http.get<Item[]>('/api/itens').subscribe(t => (this.itens = t))
+    this.http.get<Item[]>('/api/itens').subscribe((t) => (this.itens = t));
   }
   addItem(data: Item) {
-    this.http.post('/api/itens', data)
-      .subscribe(() => this.fetch())
+    this.http.post('/api/itens', data).subscribe(() => this.fetch());
   }
   removeItem(item) {
-    console.log(item)
-    this.http.delete(`api/itens/${item}`)
-      .subscribe(() => this.fetch())
+    console.log(item);
+    this.http.delete(`api/itens/${item}`).subscribe(() => this.fetch());
   }
 
   logout() {
-    localStorage.removeItem('access_token')
-    this.router.navigateByUrl('/auth')
+    localStorage.removeItem('access_token');
+    this.router.navigateByUrl('/auth');
   }
 }

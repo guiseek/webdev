@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material';
   selector: 'webdev-lista',
   templateUrl: './lista.component.html',
   styleUrls: ['./lista.component.css'],
-  providers: [MatDialog]
+  providers: [MatDialog],
 })
 export class ListaComponent {
   @Input() lista: Item[];

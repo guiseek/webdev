@@ -14,9 +14,9 @@ import { ShellComponent } from './shell/shell.component';
     MatButtonModule,
     ReactiveFormsModule,
     RouterModule.forChild([
-      { path: '', pathMatch: 'full', component: ShellComponent }
-    ])
+      { path: '', pathMatch: 'full', component: ShellComponent },
+    ]),
   ],
-  declarations: [ShellComponent]
+  declarations: [ShellComponent],
 })
 export class FeatureShellModule {}

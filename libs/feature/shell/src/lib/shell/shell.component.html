@@ -1,5 +1,5 @@
 <mat-card *ngIf="user$ | async as user">
-  <pre>{{ user | json}}</pre>
+  <pre>{{ user | json }}</pre>
 
   <button type="button" mat-flat-button color="primary" (click)="logout()">
     Logout

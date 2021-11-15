@@ -4,7 +4,7 @@ import { FeatureShellModule } from './feature-shell.module';
 describe('FeatureShellModule', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FeatureShellModule]
+      imports: [FeatureShellModule],
     }).compileComponents();
   }));
 

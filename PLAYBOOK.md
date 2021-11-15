@@ -85,23 +85,23 @@ export class UsersService {
       {
         userId: 1,
         username: 'john',
-        password: 'changeme'
+        password: 'changeme',
       },
       {
         userId: 2,
         username: 'chris',
-        password: 'secret'
+        password: 'secret',
       },
       {
         userId: 3,
         username: 'maria',
-        password: 'guess'
-      }
+        password: 'guess',
+      },
     ];
   }
 
   async findOne(username: string): Promise<User | undefined> {
-    return this.users.find(user => user.username === username);
+    return this.users.find((user) => user.username === username);
   }
 }
 ```
@@ -132,7 +132,7 @@ export class AuthService {
 @Module({
   imports: [ApiUsersModule, PassportModule],
   providers: [AuthService, LocalStrategy],
-  exports: []
+  exports: [],
 })
 export class ApiAuthModule {}
 ```
@@ -204,7 +204,7 @@ yarn add @types/passport-jwt -D
 ```ts
 // Código
 export const jwtConstants = {
-  secret: 'secretKey'
+  secret: 'secretKey',
 };
 ```
 
@@ -219,11 +219,11 @@ Vamos importar o JwtModule com suas respectivas configurações e exportar o Aut
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' }
-    })
+      signOptions: { expiresIn: '60s' },
+    }),
   ],
   providers: [AuthService, LocalStrategy],
-  exports: [AuthService]
+  exports: [AuthService],
 })
 export class ApiAuthModule {}
 ```
@@ -286,7 +286,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: jwtConstants.secret
+      secretOrKey: jwtConstants.secret,
     });
   }
 
@@ -474,8 +474,6 @@ curl -X POST http://localhost:3333/api/users -d '' -H "Content-Type: application
 }
 ```
 
-
-
 FRONT
 
 Adicionar RouterModule no app.module
@@ -506,7 +504,7 @@ ng generate @schematics/angular:component confirm-dialog --project=ui --entryCom
 
 ---
 
-## *Adicionar o `UiModule` ao ItemModule*
+## _Adicionar o `UiModule` ao ItemModule_
 
 ---
 
@@ -528,24 +526,27 @@ export function Confirm(message: string) {
    * @param target é a classe, no nosso claso o componente ListaComponent
    * @param key é o método qual o decorator está interceptando
    * @param descriptor pode ser usado para observar, modificar ou substituir as definições de um acessador
-  */
-  return function (target: Object, key: string | symbol, descriptor: PropertyDescriptor) {
+   */
+  return function (
+    target: Object,
+    key: string | symbol,
+    descriptor: PropertyDescriptor
+  ) {
     const original = descriptor.value;
 
-    const injector = Injector.create({ providers: [{ provide: MatDialog, deps: [] }] });
+    const injector = Injector.create({
+      providers: [{ provide: MatDialog, deps: [] }],
+    });
     const dialog: MatDialog = injector.get(MatDialog);
 
     descriptor.value = function (...args: any[]) {
-
       const ref = this.dialog.open(ConfirmDialogComponent, {
-        data: message.replace('{item}', args[1].nome)
-      })
-      ref.afterClosed().subscribe(
-        (result) => {
-          if (result) return original.apply(this, args)
-          return null
-        }
-      )
+        data: message.replace('{item}', args[1].nome),
+      });
+      ref.afterClosed().subscribe((result) => {
+        if (result) return original.apply(this, args);
+        return null;
+      });
     };
 
     return descriptor;
@@ -575,7 +576,6 @@ export function ComTaxa(rate: number) {
 }
 ```
 
-
 ## E usamos no componente `ListaComponent`
 
 ```ts
@@ -586,32 +586,50 @@ get total() {
 ```
 
 ## Guards
+
 ```ts
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    state: RouterStateSnapshot
+  ):
+    | Observable<boolean | UrlTree>
+    | Promise<boolean | UrlTree>
+    | boolean
+    | UrlTree {
     const logged = !!localStorage.getItem('access_token');
     if (!logged) {
       this.router.navigateByUrl('/auth');
     }
     return logged;
   }
-
 }
 ```
 
 ## Interceptor
+
 ```ts
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -620,10 +638,13 @@ import { tap } from 'rxjs/operators';
 export class HttpsRequestInterceptor implements HttpInterceptor {
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler,
+    next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const dupReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${localStorage.getItem('access_token')}`),
+      headers: req.headers.set(
+        'Authorization',
+        `Bearer ${localStorage.getItem('access_token')}`
+      ),
     });
     return next.handle(dupReq).pipe(
       tap((ev: HttpEvent<any>) => {
@@ -635,7 +656,7 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
           // router
         }
       })
-    )
+    );
   }
 }
 
@@ -648,24 +669,27 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
     },
   ],
 })
-
-export class Interceptor { }
+export class Interceptor {}
 ```
 
 ### Adicionar no módulo `Auth`
 
 ### Shell
+
 ```sh
 ng generate @nrwl/angular:library feature/shell --lazy --parentModule=apps/desktop/src/app/app.module.ts --routing --no-interactive --dry-run
 ```
+
 ---
 
 # Angular CLI
+
 O Angular CLI é muito poderoso!
 
 Servindo o app junto com a API em 1 comando.
 
 ## Serve with api
+
 ```ts
 // angular.json
 
@@ -693,7 +717,6 @@ Servindo o app junto com a API em 1 comando.
 "desk-api": "ng run desktop:serve-with-api",
 ```
 
-
 ---
 
 # PWA - Progressive Web App
@@ -703,6 +726,7 @@ ng add @angular/pwa --project mobile
 ```
 
 ## Ações
+
 ```sh
 // Output
 success Saved lockfile.
@@ -731,7 +755,6 @@ UPDATE apps/mobile/src/app/app.module.ts (733 bytes)
 UPDATE apps/mobile/src/index.html (504 bytes)
 ```
 
-
 ## Adicionar Material no App Mobile
 
 ```scss
@@ -741,17 +764,24 @@ UPDATE apps/mobile/src/index.html (504 bytes)
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~@angular/material/theming';
 
-html, body {
-    height: 100%;
-    font-family: Roboto;
+html,
+body {
+  height: 100%;
+  font-family: Roboto;
 }
 ```
 
 ## Adicionar static material no index.html
-```html
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+```html
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+  rel="stylesheet"
+/>
+<link
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet"
+/>
 ```
 
 # Build prod do mobile

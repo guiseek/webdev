@@ -1,16 +1,23 @@
 <form [formGroup]="form">
-    <mat-form-field>
-        <mat-label>Nome</mat-label>
-        <input type="text" matInput formControlName="nome">
-        <mat-error>Campo obrigatório</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>Descrição</mat-label>
-        <input type="text" matInput formControlName="desc">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Preço</mat-label>
-      <input type="number" matInput formControlName="preco">
+  <mat-form-field>
+    <mat-label>Nome</mat-label>
+    <input type="text" matInput formControlName="nome" />
+    <mat-error>Campo obrigatório</mat-error>
   </mat-form-field>
-    <button (click)="addItem()" mat-stroked-button color="primary" [disabled]="form.invalid">Add Item</button>
+  <mat-form-field>
+    <mat-label>Descrição</mat-label>
+    <input type="text" matInput formControlName="desc" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Preço</mat-label>
+    <input type="number" matInput formControlName="preco" />
+  </mat-form-field>
+  <button
+    (click)="addItem()"
+    mat-stroked-button
+    color="primary"
+    [disabled]="form.invalid"
+  >
+    Add Item
+  </button>
 </form>

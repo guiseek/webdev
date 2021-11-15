@@ -3,10 +3,10 @@ import { Item } from '@webdev/api-interfaces';
 
 @Injectable()
 export class AppService {
-  itens: Item[] = []
+  itens: Item[] = [];
 
   getData(): { message: string } {
-    return ({ message: 'Welcome to api!' });
+    return { message: 'Welcome to api!' };
   }
   getItens(): Item[] {
     return this.itens;

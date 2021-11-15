@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Item } from '@webdev/api-interfaces';
 import { AuthService } from '@webdev/api/auth';
@@ -14,7 +23,7 @@ export class AppController {
   @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(@Request() req) {
-    return this.authService.login(req.user)
+    return this.authService.login(req.user);
     // return req.user;
   }
 
@@ -31,7 +40,7 @@ export class AppController {
 
   @Get('itens')
   getItens() {
-    return this.appService.getItens()
+    return this.appService.getItens();
   }
 
   @Post('itens')

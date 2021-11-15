@@ -8,7 +8,6 @@ import { ItemModule } from '@webdev/item';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 
-
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -17,9 +16,11 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     HttpClientModule,
     ItemModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

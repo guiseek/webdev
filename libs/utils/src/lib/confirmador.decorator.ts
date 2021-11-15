@@ -12,25 +12,25 @@ export function Confirmador(message: string) {
    * @param key é o método qual o decorator está interceptando
    * @param descriptor pode ser usado para observar, modificar ou substituir as definições de um acessador
    */
-  return function(
+  return function (
     target: any,
     key: string | symbol,
     descriptor: PropertyDescriptor
   ) {
     const original = descriptor.value;
 
-    descriptor.value = function(...args: any[]) {
+    descriptor.value = function (...args: any[]) {
       const injector = Injector.create({
-        providers: [{ provide: MatDialog, deps: [] }]
+        providers: [{ provide: MatDialog, deps: [] }],
       });
 
       target.dialog = injector.get(MatDialog);
 
       const ref = this.dialog.open(ConfirmDialogComponent, {
-        data: message.replace('{item}', args[1].nome)
+        data: message.replace('{item}', args[1].nome),
       });
 
-      ref.afterClosed().subscribe(result => {
+      ref.afterClosed().subscribe((result) => {
         if (result) {
           console.log('result: ', result);
           return original.apply(this, args);

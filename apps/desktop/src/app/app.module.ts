@@ -18,17 +18,17 @@ import { HttpsRequestInterceptor } from './http-request.interceptor';
     RouterModule.forRoot([
       {
         path: 'auth',
-        loadChildren: () => import('@webdev/auth').then(m => m.AuthModule)
+        loadChildren: () => import('@webdev/auth').then((m) => m.AuthModule),
       },
       {
         path: '',
         canActivate: [AuthGuard],
         loadChildren: () =>
           import('@webdev/feature/shell').then(
-            module => module.FeatureShellModule
-          )
-      }
-    ])
+            (module) => module.FeatureShellModule
+          ),
+      },
+    ]),
   ],
   providers: [
     AuthGuard,
@@ -36,8 +36,8 @@ import { HttpsRequestInterceptor } from './http-request.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpsRequestInterceptor,
       multi: true,
-    }
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

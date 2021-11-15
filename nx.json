@@ -7,45 +7,17 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {
-    "desktop-e2e": {
-      "tags": []
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "generators": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
     },
-    "desktop": {
-      "tags": []
-    },
-    "api": {
-      "tags": []
-    },
-    "api-interfaces": {
-      "tags": []
-    },
-    "mobile-e2e": {
-      "tags": []
-    },
-    "mobile": {
-      "tags": []
-    },
-    "item": {
-      "tags": []
-    },
-    "api-auth": {
-      "tags": []
-    },
-    "api-users": {
-      "tags": []
-    },
-    "auth": {
-      "tags": []
-    },
-    "utils": {
-      "tags": []
-    },
-    "ui": {
-      "tags": []
-    },
-    "feature-shell": {
-      "tags": []
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
     }
-  }
+  },
+  "defaultProject": "desktop"
 }
