@@ -5,16 +5,16 @@
       "root": "apps/api",
       "sourceRoot": "apps/api/src",
       "projectType": "application",
-      "prefix": "api",
-      "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": ["apps/api/src/assets"],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
@@ -23,8 +23,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.prod.ts"
+                  "replace": "apps/api/src/environments/environments.ts",
+                  "with": "apps/api/src/environments/environments.prod.ts"
                 }
               ]
             }
@@ -37,23 +37,22 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "tsConfig": [
-              "apps/api/tsconfig.app.json",
-              "apps/api/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/api/**"]
+            "lintFilePatterns": ["apps/api/**/*.ts"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/api"],
           "options": {
             "jestConfig": "apps/api/jest.config.js",
-            "tsConfig": "apps/api/tsconfig.spec.json"
+            "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "api-auth": {
       "root": "libs/api/auth",
@@ -177,62 +176,68 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/desktop",
             "index": "apps/desktop/src/index.html",
             "main": "apps/desktop/src/main.ts",
             "polyfills": "apps/desktop/src/polyfills.ts",
             "tsConfig": "apps/desktop/tsconfig.app.json",
-            "aot": false,
+            "inlineStyleLanguage": "scss",
             "assets": [
-              "apps/desktop/src/favicon.ico",
-              "apps/desktop/src/assets"
+              "apps/desktop/src/favicon.png",
+              "apps/desktop/src/assets",
+              "apps/desktop/src/manifest.webmanifest"
             ],
             "styles": ["apps/desktop/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/desktop/src/environments/environment.ts",
                   "with": "apps/desktop/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
-                }
-              ]
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "desktop:build",
-            "proxyConfig": "apps/desktop/proxy.conf.json"
-          },
           "configurations": {
             "production": {
               "browserTarget": "desktop:build:production"
+            },
+            "development": {
+              "browserTarget": "desktop:build:development"
             }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/desktop/proxy.conf.json"
           }
         },
         "extract-i18n": {
@@ -242,13 +247,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/desktop/tsconfig.app.json",
-              "apps/desktop/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/desktop/**"]
+            "lintFilePatterns": [
+              "apps/desktop/src/**/*.ts",
+              "apps/desktop/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -281,10 +285,10 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "tsConfig": ["apps/desktop-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/desktop-e2e/**"]
+            "lintFilePatterns": ["apps/desktop-e2e/**/*.{js,ts}"]
           }
         }
       },
@@ -356,101 +360,112 @@
     },
     "mobile": {
       "projectType": "application",
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      },
       "root": "apps/mobile",
       "sourceRoot": "apps/mobile/src",
       "prefix": "webdev",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/mobile",
             "index": "apps/mobile/src/index.html",
             "main": "apps/mobile/src/main.ts",
             "polyfills": "apps/mobile/src/polyfills.ts",
             "tsConfig": "apps/mobile/tsconfig.app.json",
-            "aot": false,
+            "inlineStyleLanguage": "scss",
             "assets": [
-              "apps/mobile/src/favicon.ico",
+              "apps/mobile/src/favicon.png",
               "apps/mobile/src/assets",
               "apps/mobile/src/manifest.webmanifest"
             ],
             "styles": ["apps/mobile/src/styles.scss"],
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "apps/mobile/ngsw-config.json"
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "apps/mobile/src/environments/environment.ts",
                   "with": "apps/mobile/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
+              "outputHashing": "all"
+            },
+            "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
-              "serviceWorker": true,
-              "ngswConfigPath": "apps/mobile/ngsw-config.json"
+              "fileReplacements": [
+                {
+                  "replace": "apps/mobile/src/environments/environment.ts",
+                  "with": "apps/mobile/src/environments/environment.staging.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "mobile:build",
-            "proxyConfig": "apps/mobile/proxy.conf.json",
-            "port": 4201
-          },
           "configurations": {
             "production": {
-              "browserTarget": "mobile:build:production"
+              "browserTarget": "app:build:production"
+            },
+            "development": {
+              "browserTarget": "app:build:development"
             }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "apps/mobile/proxy.conf.json"
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mobile:build"
+            "browserTarget": "app:build"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/mobile/tsconfig.app.json",
-              "apps/mobile/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/mobile/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/mobile/jest.config.js",
-            "tsConfig": "apps/mobile/tsconfig.spec.json",
-            "setupFile": "apps/mobile/src/test-setup.ts"
+            "lintFilePatterns": [
+              "apps/mobile/src/**/*.ts",
+              "apps/mobile/src/**/*.html"
+            ]
           }
         }
       },
@@ -475,10 +490,10 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "tsConfig": ["apps/mobile-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/mobile-e2e/**"]
+            "lintFilePatterns": ["apps/mobile-e2e/**/*.{js,ts}"]
           }
         }
       },
@@ -541,15 +556,6 @@
         }
       },
       "tags": []
-    }
-  },
-  "schematics": {
-    "@nrwl/angular:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
     }
   }
 }
