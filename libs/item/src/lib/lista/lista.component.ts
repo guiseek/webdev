@@ -1,7 +1,7 @@
 import { Input, Output, Component, EventEmitter } from '@angular/core';
 import { ComTaxa, Confirmador } from '@webdev/utils';
 import { Item } from '@webdev/api-interfaces';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'webdev-lista',
