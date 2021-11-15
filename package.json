@@ -39,7 +39,7 @@
     "@angular/material": "^9.2.4",
     "@angular/platform-browser": "^10.2.5",
     "@angular/platform-browser-dynamic": "^10.2.5",
-    "@angular/pwa": "^0.803.20",
+    "@angular/pwa": "^0.1001.7",
     "@angular/router": "^10.2.5",
     "@angular/service-worker": "^10.2.5",
     "@nestjs/common": "^7.6.18",
