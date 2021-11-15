@@ -61,13 +61,10 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "tsConfig": [
-              "libs/api/auth/tsconfig.lib.json",
-              "libs/api/auth/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/api/auth/**"]
+            "lintFilePatterns": ["libs/api/auth/**/*.ts"]
           }
         },
         "test": {
@@ -86,13 +83,12 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "libs/api-interfaces/tsconfig.lib.json",
-              "libs/api-interfaces/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**"]
+            "lintFilePatterns": [
+              "libs/api-interfaces/src/**/*.ts",
+              "libs/api-interfaces/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -112,13 +108,10 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
           "options": {
-            "tsConfig": [
-              "libs/api/users/tsconfig.lib.json",
-              "libs/api/users/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/api/users/**"]
+            "lintFilePatterns": ["libs/api/users/**/*.ts"]
           }
         },
         "test": {
@@ -138,13 +131,12 @@
       "prefix": "webdev",
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "libs/auth/tsconfig.lib.json",
-              "libs/auth/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/auth/**"]
+            "lintFilePatterns": [
+              "libs/auth/src/**/*.ts",
+              "libs/auth/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -301,13 +293,12 @@
       "prefix": "webdev",
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "libs/feature/shell/tsconfig.lib.json",
-              "libs/feature/shell/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/feature/shell/**"]
+            "lintFilePatterns": [
+              "libs/feature/shell/src/**/*.ts",
+              "libs/feature/shell/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -333,13 +324,12 @@
       "prefix": "webdev",
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "libs/item/tsconfig.lib.json",
-              "libs/item/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/item/**"]
+            "lintFilePatterns": [
+              "libs/item/src/**/*.ts",
+              "libs/item/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -506,13 +496,9 @@
       "prefix": "ui",
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/ui/**"]
+            "lintFilePatterns": ["libs/ui/src/**/*.ts", "libs/ui/src/**/*.html"]
           }
         },
         "test": {
@@ -538,13 +524,12 @@
       "schematics": {},
       "architect": {
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "libs/utils/tsconfig.lib.json",
-              "libs/utils/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/utils/**"]
+            "lintFilePatterns": [
+              "libs/utils/src/**/*.ts",
+              "libs/utils/src/**/*.html"
+            ]
           }
         },
         "test": {
